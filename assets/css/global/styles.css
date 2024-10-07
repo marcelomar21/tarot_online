@@ -2,13 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 /* Importando todos os arquivos CSS divididos para centralizar em styles.css */
+@import url('../components/nav-bar.css');
+@import url('../components/form-cadastro.css');
+@import url('../components/tarot-board.css');
 @import url('buttons.css');
-@import url('tarot-board.css');
-@import url('interpretation.css');
-@import url('game-options.css');
 @import url('card-container.css');
-@import url('nav-bar.css');
-@import url('form-cadastro.css');
+@import url('game-options.css');
+@import url('interpretation.css');
 
 /* Arquivo principal de estilos gerais - styles.css */
 /* Estilos globais e de layout */
