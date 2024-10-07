@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Tarot Online</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro</h1>
+        
+        <!-- Importando o componente do formulário de cadastro -->
+        <div id="form-cadastro"></div>
+        
+        <p>Já tem uma conta? <a href="/login">Faça login</a></p>
+    </div>
+
+    <script type="module" src="../assets/js/initApp.js" defer></script>
+    <script src="../assets/js/loadComponents.js" defer></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        loadComponent('form-cadastro', '../components/form-cadastro.html');
+    });
+    </script>
+</body>
+</html>

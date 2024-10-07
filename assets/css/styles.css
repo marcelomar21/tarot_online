@@ -1,0 +1,41 @@
+/* Importando uma fonte mais moderna */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Importando todos os arquivos CSS divididos para centralizar em styles.css */
+@import url('buttons.css');
+@import url('tarot-board.css');
+@import url('interpretation.css');
+@import url('game-options.css');
+@import url('card-container.css');
+@import url('nav-bar.css');
+@import url('form-cadastro.css');
+
+/* Arquivo principal de estilos gerais - styles.css */
+/* Estilos globais e de layout */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #6d0571; /* Suavizando a cor de fundo */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Sombra mais suave */
+    padding: 30px;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    padding-bottom: 60px; /* Espaço para o botão Voltar */
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Online - Escolha seu Jogo</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="../assets/js/loadComponents.js" defer></script>
+</head>
+<body>
+    <!-- Importando o componente da barra de navegação -->
+    <div id="nav-bar"></div>
+
+    <div class="container">
+        <h1>Tarot Online</h1>
+        <h2>Escolha seu Jogo</h2>
+        <div class="game-options">
+            <a href="pages/mesa_real.html" class="game-button">Mesa Real</a>
+            <a href="pages/tres_cartas.html" class="game-button">3 Cartas</a>
+            <a href="pages/uma_carta.html" class="game-button">1 Carta</a>
+            <a href="pages/baralho_cigano.html" class="game-button">Baralho Cigano</a>
+        </div>
+    </div>
+
+    <!-- Chamando a função para carregar o componente após o script ter sido carregado -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadComponent('nav-bar', 'components/nav-bar.html');
+        });
+    </script>
+</body>
+</html>
