@@ -1,4 +1,4 @@
-// loadComponents.js
+// components/loadComponents.js
 
 window.loadComponent = function(containerId, filePath) {
     fetch(filePath)

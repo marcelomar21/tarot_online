@@ -1,4 +1,4 @@
-import { jogarTarot } from './sortearCartas.js';
+import { jogarTarot } from '../features/sortearCartas.js';
 
 function inicializarApp() {
     const button = document.getElementById('drawButton');

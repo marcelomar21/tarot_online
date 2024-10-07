@@ -1,4 +1,4 @@
-// fireworks.js
+// effects/fireworks.js
 
 let fireworksInstance = null;
 
