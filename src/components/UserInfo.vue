@@ -1,7 +1,14 @@
 <template>
   <div v-if="currentUser" class="user-info-container">
     <div class="user-info">
-      <h2>Olá, <span class="user-name">{{ currentUser.name }}</span>!</h2>
+      <h2>Olá, 
+        <span class="user-name" @mouseover="showTooltip = true" @mouseleave="showTooltip = false">
+          {{ currentUser.name }}
+          <span v-if="showTooltip" class="tooltip">
+            🎂 {{ currentUser.age }} | ♈ {{ currentUser.zodiacSign }}
+          </span>
+        </span>!
+      </h2>
       <p class="credits">
         <span class="credits-label">Créditos:</span>
         <span class="credits-value">{{ currentUser.credits }}</span>
@@ -15,13 +22,14 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { authService } from '../services/authService'
 import { creditService } from '../services/creditService'
 
 export default {
   setup() {
     const currentUser = computed(() => authService.currentUser.value)
+    const showTooltip = ref(false)
 
     const addCredits = () => {
       if (currentUser.value) {
@@ -32,7 +40,8 @@ export default {
 
     return {
       currentUser,
-      addCredits
+      addCredits,
+      showTooltip
     }
   }
 }
@@ -70,6 +79,26 @@ export default {
   text-decoration-color: #ffd700;
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #4a0e78;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.6em;
+  white-space: nowrap;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-left: 10px;
 }
 
 .credits {
@@ -141,6 +170,14 @@ export default {
     margin-top: 20px;
     width: 100%;
     justify-content: center;
+  }
+
+  .tooltip {
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    margin-left: 0;
+    margin-top: 5px;
   }
 }
 </style>

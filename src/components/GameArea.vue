@@ -31,11 +31,9 @@
       <p>A Mesa Real é composta por 32 cartas, representando diferentes aspectos da vida.</p>
     </div>
     <div v-if="allCardsRevealed" class="interpretation">
-          <h3>Interpretação</h3>
-  <p v-if="interpretation !== 'Carregando interpretação...' && interpretation !== ''">{{ interpretation }}</p>
-  <p v-else>{{ interpretation }}</p>
-</div>
-      <p>{{ interpretation }}</p>
+      <h3>Interpretação</h3>
+      <p v-if="interpretation !== 'Carregando interpretação...' && interpretation !== ''">{{ interpretation }}</p>
+      <p v-else>{{ interpretation }}</p>
     </div>
   </div>
 </template>
@@ -44,6 +42,7 @@
 import { ref, computed, watch } from 'vue'
 import Card from './Card.vue'
 import { interpretationService } from '../services/interpretationService'
+import { authService } from '../services/authService'
 
 export default {
   components: {
@@ -81,17 +80,17 @@ export default {
       }, 300)
     }
 
-const generateInterpretation = async () => {
-  try {
-    interpretation.value = "Carregando interpretação..."; // Mensagem temporária
-    interpretation.value = await interpretationService.generateInterpretation(props.cards);
-    emit('interpretation-ready', interpretation.value);
-  } catch (error) {
-    interpretation.value = "Erro ao gerar interpretação.";
-    console.error('Erro ao gerar interpretação:', error);
-  }
-}
-
+    const generateInterpretation = async () => {
+      try {
+        interpretation.value = "Carregando interpretação...";
+        const userInfo = authService.currentUser.value;
+        interpretation.value = await interpretationService.generateInterpretation(props.cards, userInfo);
+        emit('interpretation-ready', interpretation.value);
+      } catch (error) {
+        interpretation.value = "Erro ao gerar interpretação.";
+        console.error('Erro ao gerar interpretação:', error);
+      }
+    }
 
     const getRowCards = (row) => {
       const startIndex = (row - 1) * 7
