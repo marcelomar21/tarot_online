@@ -31,7 +31,10 @@
       <p>A Mesa Real é composta por 32 cartas, representando diferentes aspectos da vida.</p>
     </div>
     <div v-if="allCardsRevealed" class="interpretation">
-      <h3>Interpretação</h3>
+          <h3>Interpretação</h3>
+  <p v-if="interpretation !== 'Carregando interpretação...' && interpretation !== ''">{{ interpretation }}</p>
+  <p v-else>{{ interpretation }}</p>
+</div>
       <p>{{ interpretation }}</p>
     </div>
   </div>
@@ -78,10 +81,17 @@ export default {
       }, 300)
     }
 
-    const generateInterpretation = () => {
-      interpretation.value = interpretationService.generateInterpretation(props.cards)
-      emit('interpretation-ready', interpretation.value)
-    }
+const generateInterpretation = async () => {
+  try {
+    interpretation.value = "Carregando interpretação..."; // Mensagem temporária
+    interpretation.value = await interpretationService.generateInterpretation(props.cards);
+    emit('interpretation-ready', interpretation.value);
+  } catch (error) {
+    interpretation.value = "Erro ao gerar interpretação.";
+    console.error('Erro ao gerar interpretação:', error);
+  }
+}
+
 
     const getRowCards = (row) => {
       const startIndex = (row - 1) * 7
