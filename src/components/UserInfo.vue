@@ -14,10 +14,17 @@
         <span class="credits-value">{{ currentUser.credits }}</span>
       </p>
     </div>
-    <button @click="addCredits" class="add-credits-btn">
-      <span class="btn-icon">+</span>
-      Adicionar Créditos
-    </button>
+    <div class="user-actions">
+      <button @click="addCredits" class="add-credits-btn">
+        <span class="btn-icon">+</span>
+        Adicionar Créditos
+      </button>
+      <button @click="showEditProfile" class="edit-profile-btn">
+        <span class="btn-icon">✏️</span>
+        Editar Perfil
+      </button>
+    </div>
+    <ProfileEdit v-if="isEditing" @close="hideEditProfile" />
   </div>
 </template>
 
@@ -25,11 +32,16 @@
 import { ref, computed } from 'vue'
 import { authService } from '../services/authService'
 import { creditService } from '../services/creditService'
+import ProfileEdit from './ProfileEdit.vue'
 
 export default {
+  components: {
+    ProfileEdit
+  },
   setup() {
     const currentUser = computed(() => authService.currentUser.value)
     const showTooltip = ref(false)
+    const isEditing = ref(false)
 
     const addCredits = () => {
       if (currentUser.value) {
@@ -38,10 +50,21 @@ export default {
       }
     }
 
+    const showEditProfile = () => {
+      isEditing.value = true
+    }
+
+    const hideEditProfile = () => {
+      isEditing.value = false
+    }
+
     return {
       currentUser,
       addCredits,
-      showTooltip
+      showTooltip,
+      isEditing,
+      showEditProfile,
+      hideEditProfile
     }
   }
 }
@@ -54,8 +77,8 @@ export default {
   padding: 25px;
   margin-bottom: 30px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
@@ -63,6 +86,13 @@ export default {
 .user-info-container:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .user-info h2 {
@@ -85,9 +115,9 @@ export default {
 
 .tooltip {
   position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translateY(-50%);
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: rgba(255, 255, 255, 0.9);
   color: #4a0e78;
   padding: 5px 10px;
@@ -98,14 +128,13 @@ export default {
   pointer-events: none;
   transition: opacity 0.3s;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-left: 10px;
+  margin-top: 5px;
 }
 
 .credits {
   font-size: 1.4em;
   font-weight: bold;
   color: #ffffff;
-  margin: 10px 0 0;
   display: flex;
   align-items: center;
 }
@@ -124,10 +153,16 @@ export default {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.add-credits-btn {
+.user-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.add-credits-btn, .edit-profile-btn {
+  flex: 1;
   padding: 12px 25px;
   font-size: 1.1em;
-  background: linear-gradient(45deg, #ff6b6b, #feca57);
   color: #ffffff;
   border: none;
   border-radius: 25px;
@@ -135,13 +170,24 @@ export default {
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-credits-btn {
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
 }
 
 .add-credits-btn:hover {
   background: linear-gradient(45deg, #ff5252, #ffd200);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.edit-profile-btn {
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
+}
+
+.edit-profile-btn:hover {
+  background: linear-gradient(45deg, #3a8dfd, #00d4ff);
 }
 
 .btn-icon {
@@ -150,15 +196,10 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .user-info-container {
+  .user-info {
     flex-direction: column;
     align-items: stretch;
     text-align: center;
-    padding: 20px;
-  }
-
-  .user-info h2 {
-    font-size: 1.8em;
   }
 
   .credits {
@@ -166,18 +207,18 @@ export default {
     margin-top: 15px;
   }
 
-  .add-credits-btn {
-    margin-top: 20px;
+  .user-actions {
+    flex-direction: column;
+  }
+
+  .add-credits-btn, .edit-profile-btn {
     width: 100%;
-    justify-content: center;
+    margin-top: 10px;
   }
 
   .tooltip {
     left: 50%;
-    top: 100%;
     transform: translateX(-50%);
-    margin-left: 0;
-    margin-top: 5px;
   }
 }
 </style>

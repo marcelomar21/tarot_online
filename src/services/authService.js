@@ -89,8 +89,8 @@ export const authService = {
   updateUser(updates) {
     if (currentUser.value) {
       if (updates.birthday) {
-        currentUser.value.age = calculateAge(updates.birthday)
-        currentUser.value.zodiacSign = getZodiacSign(updates.birthday)
+        updates.age = calculateAge(updates.birthday)
+        updates.zodiacSign = getZodiacSign(updates.birthday)
       }
       Object.assign(currentUser.value, updates)
       this.saveUserToLocalStorage()

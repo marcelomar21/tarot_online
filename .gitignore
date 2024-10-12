@@ -1,33 +1,20 @@
-# Ignorar arquivos de sistema do macOS
 .DS_Store
-._*
+node_modules
+/dist
 
-# Ignorar dependências instaladas pelo npm
-node_modules/
+.env
+.env.local
+.env.*.local
 
-# Ignorar arquivos e pastas de log
-logs/
-*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Ignorar arquivos de cache ou temporários
-*.tmp
-*.swp
-*.swo
-
-# Ignorar arquivos de builds ou transpilados
-dist/
-build/
-
-# Ignorar arquivos ZIP e outros arquivos de backup
-*.zip
-*.tar.gz
-*.rar
-
-# Ignorar configurações específicas do editor (VSCode)
-.vscode/
-.idea/
-*.code-workspace
-
-# Ignorar arquivos gerados pelo sistema operacional
-Thumbs.db
-Desktop.ini
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
