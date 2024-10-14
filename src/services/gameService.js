@@ -1,6 +1,8 @@
 import { ref } from 'vue'
 import { tarotDeck } from '../utils/tarotDeck'
 import { shuffleDeck, drawCards } from '../utils/deckUtils'
+import { supabaseService } from './supabaseService'
+import { authService } from './authService'
 
 export const gameService = {
   flippedCards: ref({}),
@@ -34,6 +36,12 @@ export const gameService = {
     if (this.revealInterval.value) {
       clearInterval(this.revealInterval.value)
       this.revealInterval.value = null
+    }
+  },
+
+  async saveGame(gameData) {
+    if (authService.currentUser.value) {
+      await supabaseService.addGameToHistory(authService.currentUser.value.id, gameData)
     }
   }
 }

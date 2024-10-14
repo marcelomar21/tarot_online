@@ -26,7 +26,7 @@ export default {
         birthday: this.birthday,
         email: this.email,
         password: this.password,
-        credits: 10 // Iniciar com 10 créditos
+        credits: 10
       })
     }
   }

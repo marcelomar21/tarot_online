@@ -21,9 +21,10 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import HistoryItem from '../components/HistoryItem.vue'
 import { authService } from '../services/authService'
+import { supabaseService } from '../services/supabaseService'
 
 export default {
   components: {
@@ -31,17 +32,22 @@ export default {
   },
   setup() {
     const isAuthenticated = computed(() => authService.isAuthenticated())
-    const currentUser = computed(() => authService.currentUser.value)
+    const gameHistory = ref([])
 
-    const hasGameHistory = computed(() => {
-      return currentUser.value && 
-             currentUser.value.gameHistory && 
-             currentUser.value.gameHistory.length > 0
-    })
+    const hasGameHistory = computed(() => gameHistory.value.length > 0)
 
     const sortedGameHistory = computed(() => {
-      if (!hasGameHistory.value) return []
-      return [...currentUser.value.gameHistory].sort((a, b) => new Date(b.date) - new Date(a.date))
+      return [...gameHistory.value].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    })
+
+    onMounted(async () => {
+      if (isAuthenticated.value) {
+        try {
+          gameHistory.value = await supabaseService.getGameHistory(authService.currentUser.value.id)
+        } catch (error) {
+          console.error('Erro ao carregar o histórico de jogos:', error)
+        }
+      }
     })
 
     return {

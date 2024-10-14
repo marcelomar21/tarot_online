@@ -14,16 +14,14 @@
         <span class="credits-value">{{ currentUser.credits }}</span>
       </p>
     </div>
-    <div class="user-actions">
-      <button @click="addCredits" class="add-credits-btn">
-        <span class="btn-icon">+</span>
-        Adicionar Créditos
-      </button>
-      <button @click="showEditProfile" class="edit-profile-btn">
-        <span class="btn-icon">✏️</span>
-        Editar Perfil
-      </button>
-    </div>
+    <button @click="addCredits" class="add-credits-btn">
+      <span class="btn-icon">+</span>
+      Adicionar Créditos
+    </button>
+    <button @click="showEditProfile" class="edit-profile-btn">
+      <span class="btn-icon">✏️</span>
+      Editar Perfil
+    </button>
     <ProfileEdit v-if="isEditing" @close="hideEditProfile" />
   </div>
 </template>
@@ -43,10 +41,9 @@ export default {
     const showTooltip = ref(false)
     const isEditing = ref(false)
 
-    const addCredits = () => {
+    const addCredits = async () => {
       if (currentUser.value) {
-        const updatedCredits = creditService.addCredits(currentUser.value.credits, 10)
-        authService.updateUser({ credits: updatedCredits })
+        await creditService.addCredits(10)
       }
     }
 
@@ -77,8 +74,8 @@ export default {
   padding: 25px;
   margin-bottom: 30px;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  justify-content: space-between;
+  align-items: center;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
@@ -89,10 +86,7 @@ export default {
 }
 
 .user-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-grow: 1;
 }
 
 .user-info h2 {
@@ -115,9 +109,9 @@ export default {
 
 .tooltip {
   position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
   background-color: rgba(255, 255, 255, 0.9);
   color: #4a0e78;
   padding: 5px 10px;
@@ -128,13 +122,14 @@ export default {
   pointer-events: none;
   transition: opacity 0.3s;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-top: 5px;
+  margin-left: 10px;
 }
 
 .credits {
   font-size: 1.4em;
   font-weight: bold;
   color: #ffffff;
+  margin: 10px 0 0;
   display: flex;
   align-items: center;
 }
@@ -153,14 +148,7 @@ export default {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.user-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
 .add-credits-btn, .edit-profile-btn {
-  flex: 1;
   padding: 12px 25px;
   font-size: 1.1em;
   color: #ffffff;
@@ -170,8 +158,8 @@ export default {
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 10px;
 }
 
 .add-credits-btn {
@@ -180,6 +168,8 @@ export default {
 
 .add-credits-btn:hover {
   background: linear-gradient(45deg, #ff5252, #ffd200);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .edit-profile-btn {
@@ -188,6 +178,8 @@ export default {
 
 .edit-profile-btn:hover {
   background: linear-gradient(45deg, #3a8dfd, #00d4ff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-icon {
@@ -196,10 +188,15 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .user-info {
+  .user-info-container {
     flex-direction: column;
     align-items: stretch;
     text-align: center;
+    padding: 20px;
+  }
+
+  .user-info h2 {
+    font-size: 1.8em;
   }
 
   .credits {
@@ -207,18 +204,18 @@ export default {
     margin-top: 15px;
   }
 
-  .user-actions {
-    flex-direction: column;
-  }
-
   .add-credits-btn, .edit-profile-btn {
+    margin-top: 20px;
     width: 100%;
-    margin-top: 10px;
+    justify-content: center;
   }
 
   .tooltip {
     left: 50%;
+    top: 100%;
     transform: translateX(-50%);
+    margin-left: 0;
+    margin-top: 5px;
   }
 }
 </style>
